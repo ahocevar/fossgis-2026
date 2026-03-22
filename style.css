@@ -1,0 +1,4 @@
+/* Keep previously-revealed v-click elements at full opacity */
+.slidev-vclick-prior {
+  opacity: 1 !important;
+}

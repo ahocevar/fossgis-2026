@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://esm.sh/ol/ol.css">
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { width: 100%; height: 100vh; }
+    #controls {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      user-select: none;
+    }
+    input[type=checkbox] { accent-color: #2d6a2d; width: 15px; height: 15px; }
+    .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.3); flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <label><input type="checkbox" id="bio" checked> <span class="swatch" style="background:red; border-color:rgb(139,0,0)"></span> 🌿 Biolandbau</label>
+    <label><input type="checkbox" id="wine" checked> <span class="swatch" style="background:rgba(160,32,240,0.5); border-color:rgb(100,0,160)"></span> 🍇 Weinbau</label>
+  </div>
+  <div id="map"></div>
+  <script type="module">
+    import Map from 'https://esm.sh/ol/Map.js';
+    import View from 'https://esm.sh/ol/View.js';
+    import {fromLonLat} from 'https://esm.sh/ol/proj.js';
+    import {apply, addMapboxLayer, getMapboxLayer, updateMapboxLayer} from 'https://esm.sh/ol-mapbox-style';
+    import {register as registerPMTilesProtocol} from 'https://esm.sh/pmtiles-protocol';
+
+    registerPMTilesProtocol();
+
+    const map = new Map({
+      target: 'map',
+      view: new View({
+        center: fromLonLat([16.33381, 48.26544]),
+        zoom: 14.42,
+      }),
+    });
+
+    apply(map, 'https://agraratlas.inspire.gv.at/map/style-pmtiles.json')
+      .then(() => {
+        // Make the existing bio layer visible
+        updateMapboxLayer(map, {
+          ...getMapboxLayer(map, 'invekos_schlaege_polygon-bio'),
+          layout: {visibility: 'visible'},
+        });
+
+        // Add a new vineyard highlight layer
+        addMapboxLayer(map, {
+          id: 'vineyards',
+          type: 'fill',
+          source: 'agrargis',
+          'source-layer': 'invekos_schlaege_polygon',
+          filter: ['==', ['get', 'snar_bezeichnung'], 'WEIN'],
+          paint: {
+            'fill-color': 'rgba(160, 32, 240, 0.5)',
+            'fill-outline-color': 'rgb(100, 0, 160)',
+          },
+        });
+
+        document.getElementById('bio').addEventListener('change', (e) => {
+          updateMapboxLayer(map, {
+            ...getMapboxLayer(map, 'invekos_schlaege_polygon-bio'),
+            layout: {visibility: e.target.checked ? 'visible' : 'none'},
+          });
+        });
+
+        document.getElementById('wine').addEventListener('change', (e) => {
+          updateMapboxLayer(map, {
+            ...getMapboxLayer(map, 'vineyards'),
+            layout: {visibility: e.target.checked ? 'visible' : 'none'},
+          });
+        });
+      });
+  </script>
+</body>
+</html>

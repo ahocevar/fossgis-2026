@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://esm.sh/ol/ol.css">
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { width: 100%; height: 100vh; }
+    #controls {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+    }
+    button {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+    button.active {
+      background: #2d2d2d;
+      color: white;
+      border-color: #2d2d2d;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button class="active" data-style="liberty">Liberty</button>
+    <button data-style="bright">Bright</button>
+    <button data-style="hillshade">Bright + Igor</button>
+    <button data-style="positron">Positron</button>
+    <button data-style="dark">Dark</button>
+    <button data-style="fiord">Fiord</button>
+  </div>
+  <div id="map"></div>
+  <script type="module">
+    import Map from 'https://esm.sh/ol/Map.js';
+    import LayerGroup from 'https://esm.sh/ol/layer/Group.js';
+    import View from 'https://esm.sh/ol/View.js';
+    import {fromLonLat} from 'https://esm.sh/ol/proj.js';
+    import Attribution from 'https://esm.sh/ol/control/Attribution.js';
+    import {defaults as defaultControls} from 'https://esm.sh/ol/control.js';
+    import {apply} from 'https://esm.sh/ol-mapbox-style';
+
+    function applyStyle(style) {
+      const layers = map.getLayers();
+      layers.clear();
+      basemap = new LayerGroup();
+      const url = style === 'hillshade'
+        ? '/bright-hillshade.json'
+        : `https://tiles.openfreemap.org/styles/${style}`;
+      apply(basemap, url);
+      layers.push(basemap);
+    }
+
+    let basemap = new LayerGroup();
+    apply(basemap, 'https://tiles.openfreemap.org/styles/liberty');
+
+    const map = new Map({
+      target: 'map',
+      controls: defaultControls({attribution: false}).extend([new Attribution({collapsible: false})]),
+      layers: [basemap],
+      view: new View({
+        center: fromLonLat([9.93581, 51.54092]),
+        zoom: 12,
+      }),
+    });
+
+    document.querySelectorAll('#controls button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#controls button').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyStyle(btn.dataset.style);
+      });
+    });
+  </script>
+</body>
+</html>

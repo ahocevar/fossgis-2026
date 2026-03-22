@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://esm.sh/ol/ol.css">
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { width: 100%; height: 100vh; }
+    #legend {
+      position: absolute;
+      bottom: 32px;
+      right: 12px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      line-height: 1.6;
+    }
+    .bar { display: inline-block; width: 18px; height: 12px; vertical-align: middle; border-radius: 2px; margin-right: 4px; }
+    #info {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      line-height: 1.6;
+      display: none;
+    }
+    #info strong { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info"></div>
+  <div id="legend">
+    <strong>DSM − DTM (Höhe)</strong><br>
+    <span class="bar" style="background:rgba(255,255,178,0.6)"></span> 3 m (Büsche, 1 OG)<br>
+    <span class="bar" style="background:rgba(254,204,92,0.6)"></span> 6 m (2 OG)<br>
+    <span class="bar" style="background:rgba(253,141,60,0.6)"></span> 10 m (3 OG, niedrige Bäume)<br>
+    <span class="bar" style="background:rgba(240,59,32,0.6)"></span> 20 m (Gründerzeit, hohe Bäume)<br>
+    <span class="bar" style="background:rgba(189,0,38,0.6)"></span> 35 m+ (Hochhaus)
+  </div>
+  <script type="module">
+    import Map from 'https://esm.sh/ol/Map.js';
+    import View from 'https://esm.sh/ol/View.js';
+    import GeoTIFF from 'https://esm.sh/ol/source/GeoTIFF.js';
+    import WebGLTile from 'https://esm.sh/ol/layer/WebGLTile.js';
+    import TileLayer from 'https://esm.sh/ol/layer/Tile.js';
+    import OSM from 'https://esm.sh/ol/source/OSM.js';
+    import {fromLonLat} from 'https://esm.sh/ol/proj.js';
+    import proj4 from 'https://esm.sh/proj4';
+    import {register} from 'https://esm.sh/ol/proj/proj4.js';
+
+    proj4.defs('EPSG:3035', '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs');
+    register(proj4);
+
+    const source = new GeoTIFF({
+      sources: [
+        {url: 'https://ahocevar.com/bev/dtm.tif'},
+        {url: 'https://ahocevar.com/bev/dsm.tif'},
+      ],
+      attributions: '© <a href="https://www.bev.gv.at">BEV</a>, CC-BY-4.0',
+      convertToRGB: false,
+      transition: 0,
+      normalize: false,
+    });
+
+    const diff = ['-', ['band', 2], ['band', 1]];
+    const geotiffLayer = new WebGLTile({
+      source,
+      opacity: 0.6,
+      style: {
+        color: [
+          'case',
+          ['<=', diff, 0], [0, 0, 0, 0],
+          [
+            'interpolate', ['linear'], diff,
+            0, [0, 0, 0, 0],
+            3, [255, 255, 178, 1],
+            6, [254, 204, 92, 1],
+            10, [253, 141, 60, 1],
+            20, [240, 59, 32, 1],
+            35, [189, 0, 38, 1],
+          ],
+        ],
+      },
+    });
+
+    const map = new Map({
+      target: 'map',
+      layers: [
+        new TileLayer({source: new OSM()}),
+        geotiffLayer,
+      ],
+      view: new View({
+        projection: 'EPSG:3035',
+        center: fromLonLat([16.3725, 48.2082], 'EPSG:3035'),
+        zoom: 15,
+      }),
+    });
+
+    const info = document.getElementById('info');
+    map.on('click', (e) => {
+      const data = geotiffLayer.getData(e.pixel);
+      if (data && data[0] !== 0) {
+        const dtm = Math.round(data[0]);
+        const dsm = Math.round(data[1]);
+        const diff = Math.round(data[1] - data[0]);
+        info.innerHTML = `<strong>Höhendaten</strong><br>Gelände (DTM): ${dtm} m<br>Oberfläche (DSM): ${dsm} m<br>Differenz: <b>${diff} m</b>`;
+        info.style.display = 'block';
+      } else {
+        info.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

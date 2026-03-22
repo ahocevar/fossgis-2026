@@ -152,7 +152,7 @@
     }
 
     const initialProjection = dynEqualEarth([0, 0], 1);
-    const response = await fetch('/demos/ne_110m_land.geojson');
+    const response = await fetch('./ne_110m_land.geojson');
     const geojson = await response.json();
 
     // Nudge coords away from exactly ±180 so clipPolygon's around180 check

@@ -235,7 +235,7 @@ Kommen wir zum technischen Teil. OpenLayers macht es einfach, eine Karte in die 
 
 # OpenLayers — das Ergebnis
 
-<DemoFrame src="/demos/ol-osm.html" title="OpenLayers OSM Karte" />
+<DemoFrame src="./demos/ol-osm.html" title="OpenLayers OSM Karte" />
 
 <!--
 Und so sieht das Ergebnis aus: eine voll interaktive Karte mit OpenStreetMap-Kacheln. Man kann zoomen, pannen — alles funktioniert direkt im Browser. Das waren nur ein paar Zeilen Code.
@@ -283,7 +283,7 @@ Jetzt bringen wir proj4js ins Spiel. Wir registrieren EPSG:25832 — das ist UTM
 
 # proj4js — das Ergebnis
 
-<DemoFrame src="/demos/ol-proj4.html" title="OpenLayers mit EPSG:25832" />
+<DemoFrame src="./demos/ol-proj4.html" title="OpenLayers mit EPSG:25832" />
 
 <!--
 Das Ergebnis sieht auf den ersten Blick gleich aus — aber die Karte arbeitet intern jetzt in UTM-Koordinaten. Das ist wichtig, wenn man mit deutschen Geodaten arbeitet, die typischerweise in EPSG:25832 vorliegen. So kann man sie direkt ohne Umrechnung anzeigen.
@@ -303,7 +303,7 @@ Jetzt zeige ich euch, was mit proj4js noch möglich ist. Wir bauen eine rotieren
 
 # proj4js — Erde in Bewegung
 
-<DemoFrame src="/demos/ol-globe.html" title="Spinning Globe" />
+<DemoFrame src="./demos/ol-globe.html" title="Spinning Globe" />
 
 <!--
 Eine rotierende Erde — direkt im Browser, ohne Plugin, ohne Server. Das sind proj4js, OpenLayers und ein paar Zeilen Code.
@@ -395,7 +395,7 @@ Und so sieht das im Code aus. Der entscheidende Import ist apply aus ol-mapbox-s
 
 # ol-mapbox-style — OpenFreeMap mit Style-Wechsel
 
-<DemoFrame src="/demos/ol-mapbox-style.html" title="OpenFreeMap mit ol-mapbox-style" />
+<DemoFrame src="./demos/ol-mapbox-style.html" title="OpenFreeMap mit ol-mapbox-style" />
 
 <!--
 Das ist die gleiche Gegend wie bei der OSM-Karte von vorhin — Göttingen. Jetzt aber mit Vector Tiles von OpenFreeMap, einem freien Hosting-Dienst für OpenStreetMap-basierte Vektorkacheln. Mit den drei Buttons könnt ihr den Style wechseln: Liberty ist ein detailreicher OpenStreetMap-Style, Positron ist ein minimalistischer Grauton-Style. Und der Hillshade-Button kombiniert Liberty mit einer Geländeschummerung — ein zweites LayerGroup-Objekt, das einen Raster-DEM-Style mit dem neuen Igor-Hillshade-Algorithmus über die Vektorkarte legt. Kein einziger neuer Kachel-Download beim Style-Wechsel — nur das Rendering im Browser ändert sich.
@@ -415,7 +415,7 @@ Zweites Beispiel: apply() auf die Map — ol-mapbox-style übernimmt die ganze K
 
 # ol-mapbox-style — Wein & Bio in Grinzing
 
-<DemoFrame src="/demos/ol-mapbox-style-agrar.html" title="Agraratlas mit Biolandwirtschaft" />
+<DemoFrame src="./demos/ol-mapbox-style-agrar.html" title="Agraratlas mit Biolandwirtschaft" />
 
 <!--
 Grinzing, ein Weinbaugebiet im Norden Wiens — bekannt für seine Heurigen. Die Basiskarte kommt komplett aus dem Agraratlas-Style des österreichischen Landwirtschaftsministeriums. Der knallrote Layer zeigt INVEKOS-Schläge unter Biolandbau — er war im Style vorhanden, aber unsichtbar, und wurde mit updateMapboxLayer() eingeschaltet. Der lila Layer ist neu: addMapboxLayer() mit einem Filter auf snar_bezeichnung gleich WEIN (WI) — das sind die Weinbauflächen. Mit den Checkboxen lassen sich beide Layer ein- und ausschalten, jeweils wieder mit updateMapboxLayer().
@@ -543,7 +543,7 @@ pmtiles-protocol ist eine kleine Bibliothek, die ich selbst geschrieben habe. In
 
 # pmtiles-protocol — Wein & Bio in Grinzing
 
-<DemoFrame src="/demos/ol-pmtiles-agrar.html" title="Agraratlas mit PMTiles" />
+<DemoFrame src="./demos/ol-pmtiles-agrar.html" title="Agraratlas mit PMTiles" />
 
 <!--
 Dasselbe Beispiel wie vorhin — aber diesmal kommen alle Vektorkacheln direkt aus einer PMTiles-Datei im Browser. Kein Tile-Server im Betrieb. Die Checkboxen für Bio- und Weinbau funktionieren identisch.
@@ -629,7 +629,7 @@ Schauen wir uns den Code an. Wir importieren GeoTIFF als Source und WebGLTile al
 
 # geotiff.js — Objekthöhen in Wien
 
-<DemoFrame src="/demos/ol-geotiff.html" title="DSM minus DTM — Objekthöhen" />
+<DemoFrame src="./demos/ol-geotiff.html" title="DSM minus DTM — Objekthöhen" />
 
 <!--
 Hier sehen wir das Ergebnis für Wien. Die Differenz aus DSM und DTM zeigt uns die Objekthöhen im Gelände. Gelb sind niedrige Strukturen — Büsche und ein- bis zweistöckige Gebäude. Orange markiert Bäume und dreistöckige Bauten. Dunkelrot sind die höchsten Gebäude. Man kann auf die Karte klicken und bekommt die tatsächlichen Höhenwerte — Gelände, Oberfläche und Differenz — direkt aus den GeoTIFF-Rohdaten. All das passiert im Browser: geotiff.js liest die Cloud Optimized GeoTIFFs per Range Request, OpenLayers kombiniert die zwei Bänder und berechnet die Differenz mit WebGL — in Echtzeit.

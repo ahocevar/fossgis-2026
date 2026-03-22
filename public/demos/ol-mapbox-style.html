@@ -56,7 +56,7 @@
       layers.clear();
       basemap = new LayerGroup();
       const url = style === 'hillshade'
-        ? '/bright-hillshade.json'
+        ? '../bright-hillshade.json'
         : `https://tiles.openfreemap.org/styles/${style}`;
       apply(basemap, url);
       layers.push(basemap);

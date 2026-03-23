@@ -692,6 +692,8 @@ Diese Präsentation:<br>[github.com/ahocevar/fossgis-2026](https://github.com/ah
 
 <img src="https://avatars.githubusercontent.com/u/211514?v=4" class="rounded-full w-60 mt-12 mx-auto" />
 
+<QRCode value="https://github.com/ahocevar/fossgis-2026" class="mx-auto mt-6 w-40" />
+
 <!--
 Vielen Dank für eure Aufmerksamkeit! Ich freue mich über Fragen, Feedback und Gespräche — gerne auch nach dem Vortrag oder per E-Mail.
 -->

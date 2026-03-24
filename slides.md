@@ -73,26 +73,29 @@ Das sind die Bibliotheken, die wir uns heute anschauen werden. An allen bin ich 
 
 # Kurzer Einschub, bevor es losgeht
 
-Jeder YouTuber weiß: **wer zum Liken und Abonnieren auffordert, bekommt deutlich mehr Engagement.** Für Open-Source-Maintainer heißt das Äquivalent: **Sponsoring.**
+Open-Source-Software zu pflegen ist **zeitaufwändig**, Sponsoring könnte diese Zeit teilweise abgelten
 
 <v-click>
 
-~1,9 Mio. Downloads pro Woche über alle fünf Bibliotheken. Bei angenommenen 20 CI-Runs pro Anwendung: **mindestens ~95.000 aktive Anwendungen** — eher mehr.
+- Bugs triagieren und beheben
+- Pull Request Reviews — oft in mehreren Iterationen
+- Wartung von (teils fremdem) Code und Dokumentation
+- Dependencies aktuell halten — besonders aufwändig in Zeiten von Supply-Chain-Attacks
 
 </v-click>
 
 <v-click>
 
-<div class="mt-8 text-center">
+<div class="mt-6 text-center">
 
-## Und wie viel Sponsoring generiert sich daraus? 
+## Fast 2 Millionen Downloads pro Woche — wahrscheinlich >20.000 aktive Anwendungen. Und wie viele Sponsoren?
 
 </div>
 
 </v-click>
 
 <!--
-Bevor wir in die Technik einsteigen, ein kurzer Einschub. Jeder YouTuber weiß: wer zum Liken und Abonnieren auffordert, bekommt mehr Engagement. Das Äquivalent für Open-Source-Maintainer ist Sponsoring. Zusammen kommen alle fünf Bibliotheken auf ~1,9 Mio Downloads pro Woche. Bei angenommenen 20 CI-Runs pro Anwendung ergibt das mindestens ~95.000 aktive Anwendungen — eher mehr. Also: was schätzt ihr — wie viele Sponsoren haben diese Bibliotheken?
+Bevor wir in die Technik einsteigen, ein kurzer Einschub: Open-Source-Maintenance kostet Zeit — viel Zeit. Fast 2 Millionen Downloads pro Woche — und dahinter steckt kontinuierliche Arbeit: Bugs triagen, Pull Requests reviewen (die durch KI-Unterstützung immer zahlreicher werden), Abhängigkeiten aktuell halten (gerade in Zeiten von Supply-Chain-Angriffen sehr aufwändig), und Code von früheren Contributors weiterentwickeln. Also: was schätzt ihr — wie viele Sponsoren haben diese Bibliotheken?
 -->
 
 ---
@@ -316,9 +319,9 @@ Eine rotierende Erde — direkt im Browser, ohne Plugin, ohne Server. Das sind p
 <v-click>
 
 **Was proj4js kann:**
-- Über 4.000 Projektionen via `proj4.defs()` oder [spatialreference.org](https://spatialreference.org)
+- Unzählige Projektionen via `proj4.defs()`
 - Unterstützt proj Strings, WKT1, WKT2 und PROJJSON
-- Transformationsgrids im TIF oder GSB Format
+- Transformationsgrids im GSB oder TIF Format
 - Direkte Koordinatentransformation: `proj4('EPSG:25832', 'EPSG:4326', coord)`
 - Integration in OpenLayers via `register()` — danach transparent nutzbar
 
@@ -327,8 +330,8 @@ Eine rotierende Erde — direkt im Browser, ohne Plugin, ohne Server. Das sind p
 <v-click>
 
 **Typische Anwendungsfälle:**
-- Deutsche Behördendaten in EPSG:25832 oder 31467 direkt anzeigen
 - Koordinaten aus Formularen oder APIs umprojizieren
+- Karten direkt in lokalen Projektionen anzeigen
 - Überlagern von Layern mit verschiedenen Ausgangsprojektionen
 
 </v-click>
@@ -345,19 +348,10 @@ proj4js macht Projektionsregistrierung trivial. Man kopiert die Projektionsdefin
 
 ---
 
-# ol-mapbox-style — eine Spec, alle Kartentypen
+# Mapbox/MapLibre Style Spec
 
-<v-click>
+Die Idee des einstigen OGC Web Map Context (WMC) Standards weitergedacht
 
-**Erinnert ihr euch?** Die OSM-Karte von vorhin — vorgerenderte Raster-Kacheln. Ein fixer Look, nicht änderbar.
-
-</v-click>
-
-<v-click>
-
-**WMC (OGC Web Map Context)** — der OGC-Standard für "eine komplette Karte beschreiben": XML-schwer, kaum eingesetzt, heute weitgehend vergessen.
-
-</v-click>
 
 <v-click>
 
@@ -370,7 +364,7 @@ proj4js macht Projektionsregistrierung trivial. Man kopiert die Projektionsdefin
 
 <v-click>
 
-**Vector Tiles:** Rendering im Browser → Style-Wechsel ohne neue Kacheln
+**Vector Tiles:** Rendering im Browser → Style-Wechsel ohne Neuladen von Kacheln
 
 **Raster:** vorgerenderte Bilder — oder auch Rohdaten:
 - `raster-dem` Source + `hillshade` Layer → Geländeschummerung aus rohem DEM
@@ -427,11 +421,10 @@ Grinzing, ein Weinbaugebiet im Norden Wiens — bekannt für seine Heurigen. Die
 
 <v-click>
 
-**Der beste Grund für ol-mapbox-style:**
-Mapbox + MapLibre Style Spec + volle OpenLayers API — das gibt's nur in dieser Kombination.
-- Jede Datenquelle: Behördendaten, INSPIRE-Dienste, eigene MVT-Server
-- Volle Interaktivität: Attributdaten abfragen, Feature-Selection, Hit-Detection
-- Alle OpenLayers-Layer on top: WMS, GeoJSON, COG — einfach dazulegen
+Mapbox + MapLibre Style Spec + volle OpenLayers API — das beste von allen dreien.
+- Kompatibel mit MapTiler, OpenFreeMap, eigenen Kacheln, ...
+- Volle Interaktivität: Attributdaten oder Pixel abfragen, Feature-Selection
+- Kombinierbar mit allen von OpenLayers unterstützten Layern, Datenquellen und Styles
 
 </v-click>
 
@@ -442,41 +435,40 @@ Wenn 3D-Terrain, Gebäude-Extrusion oder maximale Rendering-Performance entschei
 
 </v-click>
 
-<v-click>
-
-**Kompatibel mit** MapTiler, OpenFreeMap, eigener Martin-/Tegola-Server
-
-</v-click>
-
 <!--
 Der einzigartige Vorteil von ol-mapbox-style: man bekommt die volle Mapbox Style Spec und die volle OpenLayers API in einem — das bietet keine andere Bibliothek. Behördendaten, INSPIRE-Dienste, eigene Tile-Server, Feature-Selection, Hit-Detection, WMS-Layer on top — alles kombinierbar. Mapbox GL und MapLibre GL sind die richtige Wahl, wenn 3D-Terrain, Gebäude-Extrusion oder maximales Rendering-Performance im Vordergrund stehen.
 -->
 
 ---
 
-# pmtiles-protocol — Tiles ohne Server
+# PMTiles — eine Datei, alle Tiles
 
-Woher kommen eigentlich die Kacheln des Agraratlas?
 
 ```
 https://agraratlas.inspire.gv.at/map/tiles/{z}/{x}/{y}.pbf
 ```
 
-<v-click>
+<PMTilesDiagram />
 
-Dahinter steckt eine einzige Datei — und ein serverless Decoder (AWS Lambda / DO Functions):
+<div class="text-sm opacity-60 mt-2">
 
-```
-https://agraratlas.inspire.gv.at/map/tiles/agraratlas.pmtiles
-```
+Erzeugt mit tippecanoe, GDAL, QGIS · Hosting: S3, Cloudflare R2, GitHub Pages<sup><a href="https://github.com/jshttp/mime-db/pull/454">*</a></sup>
 
-<small>DigitalOcean Function: <a href="https://github.com/ahocevar/do-function-pmtiles">github.com/ahocevar/do-function-pmtiles</a></small>
+<small><sup>*</sup> sobald <a href="https://github.com/jshttp/mime-db/pull/454">jshttp/mime-db#454</a> gemergt ist</small>
 
-</v-click>
+</div>
 
-<v-click>
+<!--
+PMTiles wurde von Brandon Liu (Protomaps) entwickelt. Das Format ist cloud-native: alle Tiles landen in einer einzigen Datei. Intern hat die Datei einen B-Tree-Index, sodass jede Tile mit maximal 2 HTTP Range Requests gezielt geladen werden kann — zuerst der Index, dann die Tile selbst. Kein Server muss die Kacheln extrahieren, CDNs können cachen, statisches Hosting reicht.
+-->
 
-Mit **pmtiles-protocol** übernimmt das der Browser — eine Zeile in `style-pmtiles.json`:
+---
+
+# pmtiles-protocol — Tiles ohne Server
+
+Das Decoding der PMTiles-Datei wandert vom Server in den Browser.
+
+<small>Serverless-Variante: <a href="https://github.com/ahocevar/do-function-pmtiles">github.com/ahocevar/do-function-pmtiles</a></small>
 
 ```diff
   "agrargis": {
@@ -486,47 +478,8 @@ Mit **pmtiles-protocol** übernimmt das der Browser — eine Zeile in `style-pmt
   }
 ```
 
-<div class="mt-4 text-sm opacity-75">
-
-Inspiriert von [MapLibres Custom Protocol Support](https://maplibre.org/maplibre-gl-js/docs/API/functions/addProtocol/) und [Protomaps' Protokoll-Implementierung für MapLibre](https://docs.protomaps.com/pmtiles/maplibre).
-
-</div>
-
-</v-click>
-
 <!--
-Der Agraratlas-Tileserver liefert XYZ-PBF-Tiles — aber der Server dahinter ist nur ein dünner Wrapper: eine serverless Funktion (z.B. AWS Lambda oder Digital Ocean Functions), die einzelne Kacheln aus der PMTiles-Datei liest und ausliefert. Der Agraratlas nutzt meine eigene DO Function — github.com/ahocevar/do-function-pmtiles. Diese Funktion kostet Geld pro Request und muss betrieben werden. pmtiles-protocol macht genau das im Browser — fetch(), XMLHttpRequest und Image werden gepatcht, sodass pmtiles://-URLs direkt aus der Datei gelesen werden. Der Server wird überflüssig.
--->
-
----
-
-# Was ist PMTiles?
-
-<v-click>
-
-- **Ein cloud-native Archivformat** — alle Tiles in einer einzigen Datei
-- Updates: eine einzige Datei hochladen statt Millionen einzelner Tiles
-
-</v-click>
-
-<v-click>
-
-- **HTTP Range Requests** — Browser lädt nur die benötigten Tiles
-- Interner Index: jede Tile in 1–2 Requests erreichbar, CDN-kompatibel
-
-</v-click>
-
-<v-click>
-
-- **Statisches Hosting genügt** — S3, Cloudflare R2, GitHub Pages<sup>*</sup>, …
-- Erzeugt mit tippecanoe, GDAL, QGIS, …
-
-<small><sup>*</sup> sobald <a href="https://github.com/jshttp/mime-db/pull/454">jshttp/mime-db#454</a> gemergt ist</small>
-
-</v-click>
-
-<!--
-PMTiles wurde von Brandon Liu (Protomaps) entwickelt. Das Format ist cloud-native: alle Tiles landen in einer einzigen Datei — ein Update bedeutet also einen einzigen Upload statt Millionen einzelner Tile-Dateien. Intern hat die Datei einen B-Tree-Index, sodass jede Tile mit 1–2 HTTP Range Requests gezielt geladen werden kann — ohne dass ein Server die Kacheln extrahieren muss. Standard-HTTP bedeutet außerdem: CDNs können die Responses cachen. Das Ergebnis: statisches Hosting reicht — S3, Cloudflare R2, was auch immer. GitHub Pages funktioniert noch nicht — es liefert den falschen MIME-Type für .pmtiles-Dateien, weil mime-db den Typ noch nicht kennt. Mein Pull Request jshttp/mime-db#454 fügt ihn hinzu — sobald der gemergt ist, funktioniert GitHub Pages out of the box.
+Der Agraratlas-Tileserver liefert XYZ-PBF-Tiles — aber der Server dahinter ist nur ein dünner Wrapper: eine serverless Funktion, die einzelne Kacheln aus der PMTiles-Datei liest und ausliefert. pmtiles-protocol macht genau das im Browser — fetch(), XMLHttpRequest und Image werden gepatcht, sodass pmtiles://-URLs direkt aus der Datei gelesen werden. Der Server wird überflüssig.
 -->
 
 ---
@@ -592,7 +545,7 @@ Bisher haben wir Vektordaten und Kartenstyles betrachtet. Aber was ist mit Raste
 <v-click>
 
 - OpenLayers nutzt **geotiff.js** zum Lesen von Cloud Optimized GeoTIFFs
-- `DataTile`-Source: speichert Rohdaten statt Bilder
+- `DataTile`-Source: speichert Rohdaten (in "Bändern") statt Bilder
 
 </v-click>
 
@@ -637,7 +590,7 @@ Hier sehen wir das Ergebnis für Wien. Die Differenz aus DSM und DTM zeigt uns d
 
 ---
 
-# Geoinformation für alle — direkt im Browser
+# Fazit: Geoinformation für alle — direkt im Browser
 
 <v-click>
 

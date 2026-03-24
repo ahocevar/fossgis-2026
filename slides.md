@@ -338,7 +338,7 @@ Eine rotierende Erde — direkt im Browser, ohne Plugin, ohne Server. Das sind p
 
 <v-click>
 
-**Tipp:** EPSG-Definitionen von [spatialreference.org](https://spatialreference.org) kopieren — kein extra Paket nötig.
+**Tipp:** EPSG-Definitionen von [spatialreference.org](https://spatialreference.org) kopieren.
 
 </v-click>
 

@@ -600,8 +600,8 @@ Rohdaten werden zu Geoinformation — zugänglich für alle.
 </v-click>
 <v-click>
 
-OpenLayers als Plattform macht es heute möglich:<br>
-proj4js · ol-mapbox-style · PMTiles · geotiff.js
+OpenLayers als Plattform macht es möglich:<br>
+proj4js · ol-mapbox-style · pmtiles-protocol · geotiff.js
 
 </v-click>
 <v-click>

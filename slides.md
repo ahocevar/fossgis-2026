@@ -470,6 +470,8 @@ Das Decoding der PMTiles-Datei wandert vom Server in den Browser.
 
 <small>Serverless-Variante: <a href="https://github.com/ahocevar/do-function-pmtiles">github.com/ahocevar/do-function-pmtiles</a></small>
 
+<v-click>
+
 ```diff
   "agrargis": {
     "type": "vector",
@@ -477,6 +479,8 @@ Das Decoding der PMTiles-Datei wandert vom Server in den Browser.
 +   "url": "pmtiles://https://agraratlas.inspire.gv.at/map/tiles/agraratlas.pmtiles"
   }
 ```
+
+</v-click>
 
 <!--
 Der Agraratlas-Tileserver liefert XYZ-PBF-Tiles — aber der Server dahinter ist nur ein dünner Wrapper: eine serverless Funktion, die einzelne Kacheln aus der PMTiles-Datei liest und ausliefert. pmtiles-protocol macht genau das im Browser — fetch(), XMLHttpRequest und Image werden gepatcht, sodass pmtiles://-URLs direkt aus der Datei gelesen werden. Der Server wird überflüssig.

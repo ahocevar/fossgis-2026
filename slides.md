@@ -422,7 +422,7 @@ Grinzing, ein Weinbaugebiet im Norden Wiens — bekannt für seine Heurigen. Die
 <v-click>
 
 Mapbox + MapLibre Style Spec + volle OpenLayers API — das beste von allen dreien.
-- Kompatibel mit MapTiler, OpenFreeMap, eigenen Kacheln, ...
+- Kompatibel mit MapTiler, OpenFreeMap, Mapbox, eigenen Kacheln, ...
 - Volle Interaktivität: Attributdaten oder Pixel abfragen, Feature-Selection
 - Kombinierbar mit allen von OpenLayers unterstützten Layern, Datenquellen und Styles
 

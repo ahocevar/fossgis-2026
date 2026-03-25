@@ -447,6 +447,7 @@ Der einzigartige Vorteil von ol-mapbox-style: man bekommt die volle Mapbox Style
 ```
 https://agraratlas.inspire.gv.at/map/tiles/{z}/{x}/{y}.pbf
 ```
+<v-click>
 
 <PMTilesDiagram />
 
@@ -458,6 +459,7 @@ Erzeugt mit tippecanoe, GDAL, QGIS · Hosting: S3, Cloudflare R2, GitHub Pages<s
 
 </div>
 
+</v-click>
 <!--
 PMTiles wurde von Brandon Liu (Protomaps) entwickelt. Das Format ist cloud-native: alle Tiles landen in einer einzigen Datei. Intern hat die Datei einen B-Tree-Index, sodass jede Tile mit maximal 2 HTTP Range Requests gezielt geladen werden kann — zuerst der Index, dann die Tile selbst. Kein Server muss die Kacheln extrahieren, CDNs können cachen, statisches Hosting reicht.
 -->
